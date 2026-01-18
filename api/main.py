@@ -123,12 +123,13 @@ async def upload_document(
     """
     logger.info(f"📤 Upload request: {file.filename} ({file.content_type})")
     
-    # Validate file type
-    allowed_types = ["application/pdf", "text/plain", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
-    if file.content_type not in allowed_types:
+    # Validate file type - check extension instead of MIME type for better compatibility
+    allowed_extensions = ['.pdf', '.txt', '.docx', '.md', '.html']
+    file_ext = Path(file.filename).suffix.lower()
+    if file_ext not in allowed_extensions:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid file type. Allowed: PDF, TXT, DOCX"
+            detail=f"Invalid file type. Allowed: {', '.join(allowed_extensions)}"
         )
     
     try:

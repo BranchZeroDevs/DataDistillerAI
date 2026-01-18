@@ -213,7 +213,17 @@ with tab2:
                 job_ids = []
                 for uploaded_file in uploaded_files:
                     try:
-                        files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/octet-stream")}
+                        # Determine correct MIME type based on file extension
+                        file_ext = uploaded_file.name.split('.')[-1].lower()
+                        mime_types = {
+                            'pdf': 'application/pdf',
+                            'txt': 'text/plain',
+                            'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'md': 'text/plain',
+                            'html': 'text/html',
+                        }
+                        mime_type = mime_types.get(file_ext, 'application/octet-stream')
+                        files = {"file": (uploaded_file.name, uploaded_file.getvalue(), mime_type)}
                         response = requests.post(
                             "http://localhost:8000/api/v2/documents/upload",
                             files=files,
