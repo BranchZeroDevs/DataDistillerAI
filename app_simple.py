@@ -26,40 +26,45 @@ st.markdown("*Intelligent Document Q&A with Multiple LLM Backends*")
 # Sidebar
 st.sidebar.title("⚙️ Configuration")
 
-backend = st.sidebar.radio(
-    "Choose LLM Backend",
-    ["Claude (Haiku)", "Ollama (Local)", "Gemini (Free)"],
-    index=1,
-    help="Select which LLM to use"
-)
+st.sidebar.success("🚀 **Primary Backend:** Ollama (Local, Free)")
 
-backend_map = {
-    "Claude (Haiku)": "claude",
-    "Ollama (Local)": "ollama",
-    "Gemini (Free)": "gemini"
-}
+with st.sidebar.expander("⚙️ Advanced (Code-only backends)"):
+    st.write("Secondary options for development:")
+    st.write("- Claude (Cloud)\n- Gemini (Cloud)")
+    st.write("Edit code to switch backends.")
 
-selected_backend = backend_map[backend]
+# Always use Ollama
+selected_backend = "ollama"
 
-# Initialize pipeline (without indexing on startup)
+# Initialize pipeline - Primary: Ollama (without indexing on startup)
 @st.cache_resource
-def load_pipeline(backend_name):
+def load_pipeline(backend_name="ollama"):
+    """Load RAG pipeline. Primary backend is Ollama (local, free).
+    
+    Secondary options available in code:
+    - claude: RAGPipelineClaude
+    - gemini: RAGPipelineGemini
+    """
     try:
-        if backend_name == "claude":
-            from src.workflows_claude import RAGPipelineClaude
-            return RAGPipelineClaude()
-        elif backend_name == "ollama":
+        if backend_name == "ollama":
             from src.workflows_ollama import RAGPipelineOllama
             return RAGPipelineOllama()
+        elif backend_name == "claude":
+            # Secondary option - requires ANTHROPIC_API_KEY
+            from src.workflows_claude import RAGPipelineClaude
+            return RAGPipelineClaude()
         elif backend_name == "gemini":
+            # Secondary option - requires GOOGLE_API_KEY
             from src.workflows_gemini import RAGPipelineGemini
             return RAGPipelineGemini()
+        else:
+            raise ValueError(f"Unknown backend: {backend_name}")
     except Exception as e:
         st.error(f"Error: {str(e)}")
         return None
 
-# Load pipeline
-pipeline = load_pipeline(selected_backend)
+# Load pipeline - always Ollama for primary
+pipeline = load_pipeline("ollama")
 
 if pipeline is None:
     st.error("Could not initialize backend. Check API keys.")
@@ -182,22 +187,26 @@ with tab3:
     2. Documents auto-index (first time takes ~30 seconds)
     3. Get instant answers grounded in your documents
     
-    ### 🔧 Backends
+    ### � Primary Backend: Ollama
     
-    - **Claude Haiku**: $0.80/1M tokens (recommended)
-    - **Ollama**: Free, runs locally
-    - **Gemini**: Free tier available
+    - **Type**: Local (100% privacy)
+    - **Cost**: Completely FREE
+    - **Speed**: ⚡⚡⚡
+    - **Quality**: ⭐⭐⭐⭐
+    
+    **Secondary backends available in code:**
+    - Claude (Cloud)
+    - Gemini (Cloud)
     
     ### 📚 Tech Stack
     
-    - **LLM**: Claude, Ollama, or Gemini
+    - **LLM**: Ollama (primary), Claude & Gemini (secondary)
     - **Vector DB**: FAISS with sentence-transformers
     - **UI**: Streamlit
     - **Document Support**: PDF, DOCX, TXT, HTML, Markdown
     
     ### 📖 Documentation
     
-    - `CLAUDE_SETUP.md` - Claude setup
     - `OLLAMA_GUIDE.md` - Ollama setup
     - `README.md` - Full documentation
     """)
@@ -206,13 +215,9 @@ with tab3:
     
     col1, col2 = st.columns(2)
     with col1:
-        st.info(f"**Backend:** {backend}")
+        st.success("**Backend:** Ollama (Primary)")
     with col2:
-        if selected_backend == "claude":
-            st.success("**Cost:** Low")
-        elif selected_backend == "ollama":
-            st.success("**Cost:** Free")
-        else:
+        st.success("**Cost:** FREE")
             st.success("**Cost:** Free tier")
 
 st.markdown("---")

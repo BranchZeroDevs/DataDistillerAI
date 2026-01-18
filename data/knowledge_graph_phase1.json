@@ -1,0 +1,654 @@
+{
+  "you": {
+    "attributes": {
+      "count": 13,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "next week",
+      "replication logs",
+      "this week",
+      "today",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this",
+      "kadane",
+      "that"
+    ]
+  },
+  "that": {
+    "attributes": {
+      "count": 6,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 3
+    },
+    "connections": [
+      "you",
+      "next week",
+      "replication logs",
+      "this week",
+      "today",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this",
+      "kadane",
+      "patterns",
+      "data",
+      "the model",
+      "output",
+      "training",
+      "neural networks",
+      "complex patterns",
+      "large amounts",
+      "deep learning"
+    ]
+  },
+  "the model": {
+    "attributes": {
+      "count": 5,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "output",
+      "patterns",
+      "data",
+      "that",
+      "training"
+    ]
+  },
+  "deep learning": {
+    "attributes": {
+      "count": 4,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "two",
+      "neural networks",
+      "that",
+      "complex patterns",
+      "large amounts",
+      "data",
+      "training",
+      "output"
+    ]
+  },
+  "data": {
+    "attributes": {
+      "count": 4,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 2
+    },
+    "connections": [
+      "the model",
+      "output",
+      "patterns",
+      "that",
+      "training",
+      "complex patterns",
+      "deep learning",
+      "large amounts"
+    ]
+  },
+  "kadane": {
+    "attributes": {
+      "count": 3,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "this week",
+      "today",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "training": {
+    "attributes": {
+      "count": 3,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 2
+    },
+    "connections": [
+      "complex patterns",
+      "data",
+      "output",
+      "deep learning",
+      "large amounts"
+    ]
+  },
+  "two": {
+    "attributes": {
+      "count": 2,
+      "type": "entity",
+      "entity_type": "CARDINAL",
+      "chunks": 2
+    },
+    "connections": [
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "this week",
+      "today",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this",
+      "deep learning",
+      "neural networks",
+      "complex patterns",
+      "large amounts",
+      "data",
+      "training",
+      "output"
+    ]
+  },
+  "problem": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "you",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this",
+      "kadane",
+      "that"
+    ]
+  },
+  "the logic": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "problem",
+      "you",
+      "leetcode",
+      "the sde-2 requirement",
+      "this",
+      "kadane",
+      "that"
+    ]
+  },
+  "leetcode": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "the sde-2 requirement",
+      "you",
+      "this",
+      "the logic",
+      "kadane",
+      "that"
+    ]
+  },
+  "the sde-2 requirement": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "you",
+      "this",
+      "the logic",
+      "kadane",
+      "leetcode",
+      "that"
+    ]
+  },
+  "this": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "the logic",
+      "you",
+      "kadane",
+      "leetcode",
+      "the sde-2 requirement",
+      "that"
+    ]
+  },
+  "patterns": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "data",
+      "the model",
+      "output",
+      "that",
+      "training"
+    ]
+  },
+  "output": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 2
+    },
+    "connections": [
+      "the model",
+      "patterns",
+      "data",
+      "that",
+      "training",
+      "deep learning",
+      "large amounts"
+    ]
+  },
+  "neural networks": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "deep learning",
+      "that",
+      "complex patterns",
+      "large amounts",
+      "data",
+      "training",
+      "output"
+    ]
+  },
+  "complex patterns": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "large amounts",
+      "data",
+      "training",
+      "output",
+      "deep learning"
+    ]
+  },
+  "large amounts": {
+    "attributes": {
+      "count": 2,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "data",
+      "training",
+      "complex patterns",
+      "output",
+      "deep learning"
+    ]
+  },
+  "100%": {
+    "attributes": {
+      "count": 1,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "code mode",
+      "the warning: you",
+      "next week",
+      "week 2",
+      "replication logs",
+      "tree",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "that",
+      "you",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "code mode": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "WORK_OF_ART",
+      "chunks": 1
+    },
+    "connections": [
+      "the warning: you",
+      "next week",
+      "week 2",
+      "replication logs",
+      "tree",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "the warning: you": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "WORK_OF_ART",
+      "chunks": 1
+    },
+    "connections": [
+      "next week",
+      "week 2",
+      "replication logs",
+      "tree",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "next week": {
+    "attributes": {
+      "count": 1,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "week 2",
+      "replication logs",
+      "tree",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "week 2": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "DATE",
+      "chunks": 1
+    },
+    "connections": [
+      "replication logs",
+      "tree",
+      "next week",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "replication logs": {
+    "attributes": {
+      "count": 1,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "tree",
+      "next week",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "tree": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "PRODUCT",
+      "chunks": 1
+    },
+    "connections": [
+      "next week",
+      "dsa",
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "replication logs",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "dsa": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "ORG",
+      "chunks": 1
+    },
+    "connections": [
+      "this week",
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "this week": {
+    "attributes": {
+      "count": 1,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "trick",
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "trick": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "WORK_OF_ART",
+      "chunks": 1
+    },
+    "connections": [
+      "the logic & the pattern\n\nthe coach",
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "this week",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "the logic & the pattern\n\nthe coach": {
+    "attributes": {
+      "count": 1,
+      "type": "entity",
+      "entity_type": "ORG",
+      "chunks": 1
+    },
+    "connections": [
+      "today",
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "this week",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  },
+  "today": {
+    "attributes": {
+      "count": 1,
+      "type": "concept",
+      "entity_type": null,
+      "chunks": 1
+    },
+    "connections": [
+      "two",
+      "kadane",
+      "100%",
+      "that",
+      "you",
+      "next week",
+      "replication logs",
+      "this week",
+      "problem",
+      "the logic",
+      "leetcode",
+      "the sde-2 requirement",
+      "this"
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+I respect the strategy of "single-threading" your focus. If your brain needs to be 100% in "Code Mode" to build momentum, we do that.
+
+The Warning: You are taking a loan on your time. DDIA is dense. By pushing it to next week, you are making Week 2 significantly harder. You will have to read about Replication Logs while solving Tree problems. If you are okay with that intensity spike next week, we proceed.
+
+Since we are cutting the reading, we are increasing the DSA quality for this week. No "Easy" filler. We focus on the "Trick" questions—the ones where the brute force is obvious, but the optimal solution requires a specific mathematical insight.
+
+Day 2: The Logic & The Pattern
+
+The Coach's Note: Today covers two pillars of SDE-2 interviews: Lexicographical Order and Subarray Optimization.
+
+Problem 1 is purely about spotting a mathematical pattern. You cannot "debug" your way to the solution; you have to see the logic.
+
+Problem 2 is the grandfather of Dynamic Programming. You must understand why it works, not just memorize the code.
+
+The Meat (DSA Focus)
+
+Next Permutation
+
+Source: LeetCode 31
+
+The SDE-2 Requirement: You must do this in-place with O(1) extra memory.
+
+The Logic: Find the first "dip" from the right, swap, and reverse. If you don't know the algorithm, drawing it out on paper helps more than coding.
+
+Coach's Tip: Visualize the "dip" in the number sequence.
+
+Maximum Subarray (Kadane’s Algorithm)
+
+Source: LeetCode 53
+
+The SDE-2 Requirement: Solve it in O(N) time.
+
+The "Follow-up" Trap: After you solve it, ask yourself: What if I needed to return the start and end indices of that subarray, not just the sum? (Try to implement that mentally).
+
+Bonus (Speed Run): Sort Colors
+
+Source: LeetCode 75
+
+Constraint: One pass only. Constant space.
+
+Why: This is the "Dutch National Flag" algorithm. It’s a standard 3-pointer pattern you should know cold.
+
+The Accountability Check
+
+Goal: Complete Next Permutation and Kadane's. (Sort Colors is optional if you have time).
+
+Reply "Done" when finished. Also, tell me for Kadane's: Did you struggle to handle the case where all numbers are negative? (e.g., [-5, -2, -9])? That is the most common bug.

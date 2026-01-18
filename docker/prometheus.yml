@@ -1,0 +1,27 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Kafka JMX metrics
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka:9101']
+    metric_path: /metrics
+
+  # Application metrics (FastAPI endpoints)
+  - job_name: 'datadistiller-api'
+    static_configs:
+      - targets: ['host.docker.internal:8000']
+    metrics_path: /metrics
+
+  # Worker metrics
+  - job_name: 'datadistiller-workers'
+    static_configs:
+      - targets: ['host.docker.internal:8001']
+    metrics_path: /metrics

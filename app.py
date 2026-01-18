@@ -31,37 +31,43 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Sidebar - Backend Selection
+# Sidebar - Configuration
 st.sidebar.title("⚙️ Configuration")
 
-backend = st.sidebar.radio(
-    "Choose LLM Backend",
-    ["Claude (Haiku)", "Ollama (Local)", "Gemini (Free)"],
-    index=0,
-    help="Select which LLM to use for answering questions"
-)
+st.sidebar.info("🚀 **Primary LLM Backend:** Ollama (Local) - Privacy-first, completely free")
 
-backend_map = {
-    "Claude (Haiku)": "claude",
-    "Ollama (Local)": "ollama",
-    "Gemini (Free)": "gemini"
-}
+# Advanced backend selection (hidden by default)
+with st.sidebar.expander("⚙️ Advanced Backend Options (Code-only)"):
+    st.write("Available secondary options for development:")
+    st.code("Claude (Haiku) - Cloud, low cost\nGemini - Cloud, free tier", language="text")
+    st.write("To use these, modify the backend selection code.")
 
-selected_backend = backend_map[backend]
+# Always use Ollama as primary
+selected_backend = "ollama"
 
-# Initialize RAG pipeline based on backend
+# Initialize RAG pipeline - Primary: Ollama
 @st.cache_resource
-def load_rag_pipeline(backend_name):
+def load_rag_pipeline(backend_name="ollama"):
+    """Load RAG pipeline. Primary backend is Ollama (local, free).
+    
+    Secondary options available in code:
+    - claude: RAGPipelineClaude
+    - gemini: RAGPipelineGemini
+    """
     try:
-        if backend_name == "claude":
-            from src.workflows_claude import RAGPipelineClaude
-            pipeline = RAGPipelineClaude()
-        elif backend_name == "ollama":
+        if backend_name == "ollama":
             from src.workflows_ollama import RAGPipelineOllama
             pipeline = RAGPipelineOllama()
+        elif backend_name == "claude":
+            # Secondary option - requires ANTHROPIC_API_KEY
+            from src.workflows_claude import RAGPipelineClaude
+            pipeline = RAGPipelineClaude()
         elif backend_name == "gemini":
+            # Secondary option - requires GOOGLE_API_KEY
             from src.workflows_gemini import RAGPipelineGemini
             pipeline = RAGPipelineGemini()
+        else:
+            raise ValueError(f"Unknown backend: {backend_name}")
         
         return pipeline
     except Exception as e:
@@ -70,10 +76,10 @@ def load_rag_pipeline(backend_name):
 
 # Index documents once
 @st.cache_resource
-def index_documents(pipeline):
+def index_documents(_pipeline):
     try:
         with st.spinner(f"📚 Indexing documents..."):
-            pipeline.index_documents()
+            _pipeline.index_documents()
         return True
     except Exception as e:
         st.error(f"Error indexing: {str(e)}")
@@ -81,13 +87,13 @@ def index_documents(pipeline):
 
 # Main title
 st.title("🧠 DataDistillerAI")
-st.markdown("*Intelligent Document Q&A with Multiple LLM Backends*")
+st.markdown("*Intelligent Document Q&A powered by Ollama (Local)*")
 
-# Load pipeline
-pipeline = load_rag_pipeline(selected_backend)
+# Load pipeline - always Ollama for primary
+pipeline = load_rag_pipeline("ollama")
 
 if pipeline is None:
-    st.error(f"Could not initialize {backend} backend. Check your API keys and setup.")
+    st.error("Could not initialize Ollama backend. Check if Ollama is running (http://localhost:11434)")
     st.stop()
 
 # Index documents
@@ -96,7 +102,7 @@ if not indexed:
     st.stop()
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs(["💬 Chat", "📊 Documents", "ℹ️ About"])
+tab1, tab2, tab3, tab4 = st.tabs(["💬 Chat", "📊 Documents", "🧠 Knowledge Graph", "ℹ️ About"])
 
 # TAB 1: CHAT
 with tab1:
@@ -115,7 +121,7 @@ with tab1:
         top_k = st.slider("Top results", 1, 5, 3, label_visibility="collapsed")
     
     if user_question:
-        with st.spinner(f"🔍 Searching and thinking with {backend}..."):
+        with st.spinner("🔍 Searching and thinking with Ollama..."):
             try:
                 answer = pipeline.query(user_question, top_k=top_k)
                 
@@ -154,6 +160,47 @@ with tab1:
 with tab2:
     st.header("Document Information")
     
+    # Document upload section
+    st.subheader("📤 Upload New Documents")
+    
+    uploaded_files = st.file_uploader(
+        "Upload documents (PDF, DOCX, TXT, HTML, MD)",
+        type=["pdf", "docx", "txt", "html", "md"],
+        accept_multiple_files=True,
+        help="Upload one or more documents to add to your knowledge base"
+    )
+    
+    if uploaded_files:
+        if st.button("📥 Process & Index Uploaded Files", key="upload_button"):
+            doc_path = Path(pipeline.document_path)
+            doc_path.mkdir(parents=True, exist_ok=True)
+            
+            uploaded_count = 0
+            with st.spinner("📥 Processing uploaded files..."):
+                try:
+                    for uploaded_file in uploaded_files:
+                        # Save file
+                        file_path = doc_path / uploaded_file.name
+                        with open(file_path, "wb") as f:
+                            f.write(uploaded_file.getbuffer())
+                        uploaded_count += 1
+                    
+                    st.success(f"✅ Saved {uploaded_count} file(s)")
+                    
+                    # Re-index documents
+                    with st.spinner("🔄 Re-indexing all documents..."):
+                        # Clear cache to force re-indexing
+                        st.cache_resource.clear()
+                        pipeline.index_documents()
+                    
+                    st.success(f"✅ Successfully indexed {uploaded_count} new document(s)!")
+                    st.info("💡 Refresh the page or ask a question to see the new documents in action")
+                
+                except Exception as e:
+                    st.error(f"❌ Error processing files: {str(e)}")
+    
+    st.markdown("---")
+    
     try:
         docs = pipeline.loader.load_directory(str(pipeline.document_path))
         chunks = pipeline.vector_store.get_all_documents()
@@ -173,16 +220,24 @@ with tab2:
         st.markdown("---")
         st.subheader("📄 Indexed Documents")
         
-        for doc in docs:
-            with st.expander(f"📖 {doc.metadata.get('filename', 'Unknown')}"):
-                st.write(f"**Size:** {len(doc.content):,} characters")
-                st.text(doc.content[:500] + "..." if len(doc.content) > 500 else doc.content)
+        if docs:
+            for doc in docs:
+                with st.expander(f"📖 {doc.metadata.get('filename', 'Unknown')}"):
+                    st.write(f"**Size:** {len(doc.content):,} characters")
+                    st.text(doc.content[:500] + "..." if len(doc.content) > 500 else doc.content)
+        else:
+            st.info("📚 No documents indexed yet. Upload documents above to get started!")
                 
     except Exception as e:
         st.error(f"Error loading documents: {str(e)}")
 
-# TAB 3: ABOUT
+# TAB 3: KNOWLEDGE GRAPH
 with tab3:
+    from test_kg_phase2 import display_knowledge_graph_tab
+    display_knowledge_graph_tab(pipeline)
+
+# TAB 4: ABOUT
+with tab4:
     st.header("About DataDistillerAI")
     
     st.markdown("""
@@ -211,13 +266,19 @@ with tab3:
     4. **LLM Generation**: The LLM generates an answer based on retrieved context
     5. **Grounded Response**: Answers are grounded in your actual documents
     
-    ### 🔧 Backends Available
+    ### � Primary Backend: Ollama
     
-    | Backend | Type | Cost | Speed | Quality |
-    |---------|------|------|-------|---------|
-    | **Claude Haiku** | Cloud | Low | ⚡⚡⚡ | ⭐⭐⭐⭐ |
-    | **Ollama** | Local | Free | ⚡⚡⚡ | ⭐⭐⭐⭐ |
-    | **Gemini** | Cloud | Free Tier | ⚡⚡ | ⭐⭐⭐⭐ |
+    | Feature | Ollama |
+    |---------|--------|
+    | **Type** | Local |
+    | **Cost** | Free |
+    | **Privacy** | 100% Local |
+    | **Speed** | ⚡⚡⚡ |
+    | **Quality** | ⭐⭐⭐⭐ |
+    
+    **Secondary backends available in code:**
+    - Claude Haiku (Cloud, low cost)
+    - Gemini (Cloud, free tier)
     
     ### 📚 Tech Stack
     
@@ -241,20 +302,15 @@ with tab3:
     
     # Backend info
     st.markdown("---")
-    st.subheader("Currently Using")
+    st.subheader("🚀 Currently Using")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.info(f"**Backend:** {backend}")
+        st.success("**Backend:** Ollama (Primary)")
     
     with col2:
-        if selected_backend == "claude":
-            st.success("**Cost:** ~$0.80/1M input tokens")
-        elif selected_backend == "ollama":
-            st.success("**Cost:** FREE (runs locally)")
-        else:
-            st.success("**Cost:** Free tier available")
+        st.success("**Cost:** FREE - Runs Locally")
 
 # Footer
 st.markdown("---")

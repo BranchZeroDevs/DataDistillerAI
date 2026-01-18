@@ -17,20 +17,18 @@ class DataDistillerCLI:
         self.pipeline = None
     
     def setup(self):
-        """Initialize the RAG pipeline."""
-        from src.workflows import RAGPipeline
-        from config.settings import settings
+        """Initialize the RAG pipeline - Using Ollama as primary backend."""
+        from src.workflows_ollama import RAGPipelineOllama
         
-        self.pipeline = RAGPipeline(
-            document_path=input("Enter document path (default: ./data/documents): ") or "./data/documents",
-            vector_db_path=settings.VECTOR_DB_PATH,
-            chunk_size=settings.CHUNK_SIZE,
-            chunk_overlap=settings.CHUNK_OVERLAP,
-            embedding_model=settings.EMBEDDING_MODEL,
-            llm_model=settings.LLM_MODEL,
-            api_key=settings.OPENAI_API_KEY,
-        )
-        logger.info("Pipeline initialized successfully!")
+        doc_path = input("Enter document path (default: ./data/documents): ") or "./data/documents"
+        
+        try:
+            self.pipeline = RAGPipelineOllama(document_path=doc_path)
+            logger.info("✓ Pipeline initialized with Ollama backend!")
+            logger.info("Note: Secondary backends available - Claude, Gemini (code-only)")
+        except Exception as e:
+            logger.error(f"Failed to initialize Ollama backend: {e}")
+            logger.info("Make sure Ollama is running locally (http://localhost:11434)")
     
     def index(self):
         """Index documents."""

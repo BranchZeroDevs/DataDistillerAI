@@ -15,6 +15,37 @@ requests>=2.31.0
 pytest>=7.4.0
 pytest-asyncio>=0.21.0
 
-
+# UI
 streamlit>=1.0.0
 google-generativeai>=0.1.0
+
+# DataDistiller 2.0 Dependencies
+# Phase 1: Kafka Infrastructure
+kafka-python==2.0.2
+
+# Phase 2: Async API
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+aiofiles>=23.0.0
+
+# Phase 3: Storage
+boto3>=1.28.0  # S3/MinIO client
+minio>=7.2.0
+psycopg2-binary>=2.9.0  # PostgreSQL
+redis>=5.0.0
+
+# Phase 4: Hybrid Search
+rank-bm25>=0.2.2  # BM25 algorithm
+elasticsearch>=8.0.0  # Optional: for production BM25
+cohere>=4.0.0  # Optional: reranking API
+
+# Monitoring & Observability
+prometheus-client>=0.18.0
+python-json-logger>=2.0.0
+
+# Knowledge Graph (already added)
+spacy>=3.7.0
+networkx>=3.2.0
+pyvis>=0.3.2
+matplotlib>=3.8.0
