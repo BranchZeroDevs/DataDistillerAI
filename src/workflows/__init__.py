@@ -38,7 +38,7 @@ class RAGPipeline:
         self.chunk_overlap = chunk_overlap
         
         # Import here to avoid circular dependencies
-        from src.ingestion.loaders import DocumentLoader
+        from src.ingestion import DocumentLoader
         from src.processing.chunker import SemanticChunker
         from src.retrieval import VectorStore
         from src.llm import LLMClient

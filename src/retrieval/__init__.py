@@ -4,6 +4,7 @@ from typing import List, Tuple, Dict, Any
 import logging
 import numpy as np
 from pathlib import Path
+from types import SimpleNamespace
 
 logger = logging.getLogger(__name__)
 
@@ -155,3 +156,15 @@ class VectorStore:
             self.document_count = len(self.documents)
         
         logger.info(f"Loaded vector store from {path}")
+
+    def get_all_documents(self) -> List[Any]:
+        """
+        Return all stored documents as objects with `content` and `metadata` attributes.
+
+        This keeps compatibility with pipeline code that expects items with a
+        `.content` attribute (e.g., for summarization).
+        """
+        items = []
+        for doc in self.documents.values():
+            items.append(SimpleNamespace(content=doc.get('content', ''), metadata=doc.get('metadata', {})))
+        return items
