@@ -277,8 +277,9 @@ class PostgresClient:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 if status:
                     cur.execute("""
-                        SELECT job_id, filename, file_size, status, progress, 
-                               created_at, updated_at
+                        SELECT job_id, filename, file_size, status, progress,
+                               total_chunks, processed_chunks, error_message,
+                               created_at, updated_at, completed_at
                         FROM document_jobs
                         WHERE status = %s
                         ORDER BY created_at DESC
@@ -286,8 +287,9 @@ class PostgresClient:
                     """, (status, limit))
                 else:
                     cur.execute("""
-                        SELECT job_id, filename, file_size, status, progress, 
-                               created_at, updated_at
+                        SELECT job_id, filename, file_size, status, progress,
+                               total_chunks, processed_chunks, error_message,
+                               created_at, updated_at, completed_at
                         FROM document_jobs
                         ORDER BY created_at DESC
                         LIMIT %s

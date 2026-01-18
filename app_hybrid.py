@@ -252,9 +252,9 @@ with tab2:
                 data = response.json()
                 st.metric("Total Documents", data.get("total", 0))
                 
-                if data.get("documents"):
+                if data.get("jobs"):
                     st.markdown("### Recent Jobs")
-                    for doc in data["documents"][:10]:
+                    for doc in data["jobs"][:10]:
                         status_icon = {
                             "completed": "✅",
                             "embedding": "🔄",
@@ -274,6 +274,8 @@ with tab2:
                         
                         if doc["status"] not in ["completed", "failed"]:
                             st.progress(doc.get("progress", 0) / 100)
+                else:
+                    st.info("ℹ️ No documents uploaded yet. Upload documents above to get started!")
         except Exception as e:
             st.error(f"Could not fetch document list: {str(e)}")
     
