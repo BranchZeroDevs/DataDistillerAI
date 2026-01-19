@@ -340,7 +340,7 @@ with tab3:
         st.header("Knowledge Graph Visualization")
         
         try:
-            from src.knowledge_graph import display_knowledge_graph_tab
+            from tests_v1.test_kg_phase2 import display_knowledge_graph_tab
             display_knowledge_graph_tab(pipeline)
         except Exception as e:
             st.error(f"Knowledge Graph not available: {str(e)}")
