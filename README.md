@@ -5,6 +5,10 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+## UI
+<img width="1427" height="1032" alt="image" src="https://github.com/user-attachments/assets/6292d34b-effe-45a7-96f9-622dd055e42c" />
+
+
 ## 🎯 Choose Your Version
 
 DataDistiller AI offers two architectures for different use cases:
