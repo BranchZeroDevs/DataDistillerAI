@@ -320,7 +320,7 @@ with tab2:
         
         # Show document stats
         if pipeline and hasattr(pipeline, 'vector_store'):
-            num_chunks = len(pipeline.vector_store.chunks)
+            num_chunks = pipeline.vector_store.document_count
             st.metric("Total Chunks", num_chunks)
             
             # List documents
