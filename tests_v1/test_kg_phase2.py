@@ -135,7 +135,7 @@ def display_knowledge_graph_tab(pipeline):
         with st.spinner("🧠 Building knowledge graph..."):
             try:
                 # Import the builder
-                from test_kg_phase1 import SimpleKnowledgeGraphBuilder
+                from tests_v1.test_kg_phase1 import SimpleKnowledgeGraphBuilder
                 
                 # Get chunks from vector store
                 chunks = pipeline.vector_store.get_all_documents()
