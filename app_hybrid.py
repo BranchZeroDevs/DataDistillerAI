@@ -36,6 +36,14 @@ st.markdown("""
 # Sidebar - Mode Selection
 st.sidebar.title("⚙️ Configuration")
 
+
+def get_api_headers():
+    """Build optional API auth headers."""
+    api_key = os.getenv("DATADISTILLER_API_KEY")
+    if api_key:
+        return {"X-API-Key": api_key}
+    return {}
+
 # Check if 2.0 API is available
 def check_api_available():
     try:
@@ -135,6 +143,7 @@ with tab1:
                     response = requests.post(
                         "http://localhost:8000/api/v2/query",
                         json={"query": user_question, "top_k": top_k},
+                        headers=get_api_headers(),
                         timeout=30
                     )
                     
@@ -231,6 +240,7 @@ with tab2:
                         response = requests.post(
                             "http://localhost:8000/api/v2/documents/upload",
                             files=files,
+                            headers=get_api_headers(),
                             timeout=10
                         )
                         
@@ -251,7 +261,11 @@ with tab2:
         
         # Show document list from API
         try:
-            response = requests.get("http://localhost:8000/api/v2/documents/list", timeout=5)
+            response = requests.get(
+                "http://localhost:8000/api/v2/documents/list",
+                headers=get_api_headers(),
+                timeout=5
+            )
             if response.status_code == 200:
                 data = response.json()
                 st.metric("Total Documents", data.get("total", 0))

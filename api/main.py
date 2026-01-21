@@ -3,10 +3,12 @@ FastAPI Application - DataDistiller 2.0
 Asynchronous document upload and query API
 """
 
-from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks
+from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks, Depends, Header, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import uvicorn
+import os
+import asyncio
 import uuid
 import logging
 from pathlib import Path
@@ -66,6 +68,26 @@ def get_minio_client():
     return _minio_client
 
 
+def require_api_key(
+    x_api_key: str = Header(default=None),
+    authorization: str = Header(default=None)
+):
+    """Optional API key auth. Enforced only if DATADISTILLER_API_KEY is set."""
+    required = os.getenv("DATADISTILLER_API_KEY")
+    if not required:
+        return
+
+    if x_api_key and x_api_key == required:
+        return
+
+    if authorization and authorization.startswith("Bearer "):
+        token = authorization.split("Bearer ", 1)[-1].strip()
+        if token == required:
+            return
+
+    raise HTTPException(status_code=401, detail="Invalid or missing API key")
+
+
 @app.get("/", response_model=dict)
 async def root():
     """Root endpoint"""
@@ -111,7 +133,7 @@ async def health_check():
     )
 
 
-@app.post("/api/v2/documents/upload", response_model=UploadResponse, status_code=202)
+@app.post("/api/v2/documents/upload", response_model=UploadResponse, status_code=202, dependencies=[Depends(require_api_key)])
 async def upload_document(
     file: UploadFile = File(...),
     background_tasks: BackgroundTasks = None
@@ -176,7 +198,7 @@ async def upload_document(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/v2/documents/status/{job_id}", response_model=JobStatusResponse)
+@app.get("/api/v2/documents/status/{job_id}", response_model=JobStatusResponse, dependencies=[Depends(require_api_key)])
 async def get_job_status(job_id: str):
     """
     Get processing status for a job
@@ -199,7 +221,7 @@ async def get_job_status(job_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/v2/documents/list", response_model=JobListResponse)
+@app.get("/api/v2/documents/list", response_model=JobListResponse, dependencies=[Depends(require_api_key)])
 async def list_jobs(limit: int = 100, status: str = None):
     """
     List recent document processing jobs
@@ -222,7 +244,7 @@ async def list_jobs(limit: int = 100, status: str = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/v2/query", response_model=QueryResponse)
+@app.post("/api/v2/query", response_model=QueryResponse, dependencies=[Depends(require_api_key)])
 async def query(request: QueryRequest):
     """
     Query indexed documents
@@ -256,6 +278,38 @@ async def query(request: QueryRequest):
     except Exception as e:
         logger.error(f"❌ Query failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.websocket("/api/v2/ws/jobs/{job_id}")
+async def job_status_ws(websocket: WebSocket, job_id: str, api_key: str = None):
+    """WebSocket stream for job status updates."""
+    required = os.getenv("DATADISTILLER_API_KEY")
+    if required and api_key != required:
+        await websocket.accept()
+        await websocket.close(code=1008)
+        return
+
+    await websocket.accept()
+
+    try:
+        while True:
+            db = get_postgres_client()
+            job = db.get_job_status(job_id)
+
+            if not job:
+                await websocket.send_json({"error": "Job not found"})
+                await websocket.close()
+                return
+
+            await websocket.send_json(job)
+
+            if job.get("status") in ["completed", "failed"]:
+                await websocket.close()
+                return
+
+            await asyncio.sleep(1.0)
+    except WebSocketDisconnect:
+        return
 
 
 # Metrics endpoint (for Prometheus)
