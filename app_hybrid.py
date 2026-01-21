@@ -131,11 +131,13 @@ with tab1:
             placeholder="What would you like to know about your documents?",
             label_visibility="collapsed"
         )
-    
+
     with col2:
         top_k = st.slider("Top results", 1, 5, 3, label_visibility="collapsed")
-    
-    if user_question:
+
+    search_button = st.button("🔍 Search")
+
+    if user_question and search_button:
         if USE_API:
             # 2.0 API Mode
             with st.spinner("🔍 Querying via async API..."):
