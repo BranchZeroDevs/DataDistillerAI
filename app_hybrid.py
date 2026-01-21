@@ -46,19 +46,23 @@ def check_api_available():
 
 api_available = check_api_available()
 
-# Mode selection
+# Mode selection (default to V2)
 if api_available:
     st.sidebar.success("✅ DataDistiller 2.0 API detected")
-    mode = st.sidebar.radio(
-        "Select Mode:",
-        ["🚀 2.0 Async API", "💻 1.0 Direct Pipeline"],
-        index=0
-    )
 else:
-    st.sidebar.info("ℹ️ 2.0 API not running - using 1.0 mode")
-    mode = "💻 1.0 Direct Pipeline"
+    st.sidebar.warning("⚠️ DataDistiller 2.0 API not running")
+
+mode = st.sidebar.radio(
+    "Select Mode:",
+    ["🚀 2.0 Async API", "💻 1.0 Direct Pipeline"],
+    index=0
+)
 
 USE_API = "2.0" in mode
+
+if USE_API and not api_available:
+    st.warning("🚫 2.0 API is not available. Start the API to use V2 mode, or switch to V1.")
+    st.stop()
 
 st.sidebar.markdown("---")
 st.sidebar.info("🚀 **Primary LLM Backend:** Ollama (Local)")

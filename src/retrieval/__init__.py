@@ -107,7 +107,9 @@ class VectorStore:
                 if doc:
                     # Convert distance to similarity score (L2 distance to cosine-like similarity)
                     similarity = 1 / (1 + distance)
-                    results.append((doc['content'], doc['metadata'], similarity))
+                    metadata = dict(doc.get('metadata', {}) or {})
+                    metadata.setdefault('doc_id', idx)
+                    results.append((doc.get('content', ''), metadata, similarity))
         
         logger.info(f"Found {len(results)} similar documents for query")
         return results
@@ -167,4 +169,17 @@ class VectorStore:
         items = []
         for doc in self.documents.values():
             items.append(SimpleNamespace(content=doc.get('content', ''), metadata=doc.get('metadata', {})))
+        return items
+
+    def get_all_documents_with_ids(self) -> List[Dict[str, Any]]:
+        """
+        Return all documents with their IDs for external indexing (e.g., BM25).
+        """
+        items = []
+        for doc_id, doc in self.documents.items():
+            items.append({
+                'doc_id': doc_id,
+                'content': doc.get('content', ''),
+                'metadata': doc.get('metadata', {})
+            })
         return items
