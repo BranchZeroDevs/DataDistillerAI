@@ -2,13 +2,23 @@
 
 > **Intelligent Document Q&A powered by Retrieval-Augmented Generation (RAG) with Knowledge Graph Visualization**
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![CI](https://github.com/BranchZeroDevs/DataDistillerAI/workflows/CI/badge.svg)](https://github.com/BranchZeroDevs/DataDistillerAI/actions)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+<p align="center">
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python 3.10+"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"/></a>
+  <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"/></a>
+  <a href="https://github.com/BranchZeroDevs/DataDistillerAI/actions"><img src="https://github.com/BranchZeroDevs/DataDistillerAI/workflows/CI/badge.svg" alt="CI"/></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"/></a>
+  <a href="https://github.com/BranchZeroDevs/DataDistillerAI/stargazers"><img src="https://img.shields.io/github/stars/BranchZeroDevs/DataDistillerAI?style=social" alt="GitHub stars"/></a>
+</p>
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+<p align="center">
+  <b>🚀 Quick Setup</b> •
+  <b>🔒 Privacy-First</b> •
+  <b>🧠 Smart Knowledge Graphs</b> •
+  <b>⚡ Lightning Fast</b>
+</p>
+
+---
 
 <p align="center">
   <img width="1200" alt="DataDistiller AI Interface" src="https://github.com/user-attachments/assets/6292d34b-effe-45a7-96f9-622dd055e42c" />
