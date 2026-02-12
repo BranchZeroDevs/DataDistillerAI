@@ -59,3 +59,39 @@ Thumbs.db
 # Mine
 GOAL.md
 DEVELOPMENT.md
+
+# Temporary files
+/tmp/
+*.tmp
+
+# Documentation build
+docs/_build/
+site/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker volumes
+docker/data/
+docker/logs/
+
+# MinIO data
+minio-data/
+
+# Environment-specific
+.env.local
+.env.production
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Editor configs
+*.sublime-project
+*.sublime-workspace
